@@ -13,7 +13,7 @@ import java.util.Stack;
  * @date: 2018/5/10
  * @time: 23:55
  * 2018/5/10 23:55 Hussein create
- * @version: 1.0
+ * @version: 1.1
  */
 public class Calculator {
 
@@ -125,6 +125,9 @@ public class Calculator {
                 undo();
             } else if (s.matches(CLEAR)) {
                 // @Description:清空 2018/5/9 0:53 Hussein
+                ClearOperator clearOperator = new ClearOperator();
+                clearOperator.setLastStack((Stack<String>) numStack.clone());
+                operatorStack.push(clearOperator);
                 numStack.removeAllElements();
             } else {
                 // @Description:非法参数 2018/5/9 0:45 Hussein
