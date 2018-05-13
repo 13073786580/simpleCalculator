@@ -1,4 +1,5 @@
-import com.hussein.Operator;
+package com.hussein;
+
 import com.hussein.OperatorImpl.*;
 
 import java.util.Iterator;
@@ -23,7 +24,6 @@ public class Calculator {
     private static final String SQRT = "sqrt";
     private static final String UNDO = "undo";
     private static final String CLEAR = "clear";
-    private static final double deviation = 0.00000000000001;
 
     private static Stack<String> numStack = new Stack<>();
     private static Stack<Operator> operatorStack = new Stack<>();
@@ -33,7 +33,7 @@ public class Calculator {
             System.out.println("expression：");
             // @Description:输入逆波兰式 2018/5/8 22:32 Hussein
             Scanner sc = new Scanner(System.in);
-            String input = sc.nextLine();
+            String input = sc.nextLine().trim();
             // @Description:解析并运算结果 2018/5/9 0:47 Hussein
             analysisRPN(input);
             System.out.print("stack : ");
@@ -64,6 +64,7 @@ public class Calculator {
             if (s.matches("[0-9]+") || s.matches("[0-9]+.[0-9]+")) {
                 // @Description:判断是否为数字，是则存入栈 2018/5/8 22:32 Hussein
                 numStack.push(s);
+                operatorStack.push(null);
             } else if (s.matches("[\\+\\-\\*\\/\\(\\)]")) {
                 if (numStack.size() < 2) {
                     System.out.println("operator <" + s + "> (position: <" + input.indexOf(s) + 1 + ">): insucient parameters");
@@ -117,6 +118,10 @@ public class Calculator {
                 }
             } else if (s.matches(UNDO)) {
                 // @Description:回退 2018/5/9 0:53 Hussein
+                if (operatorStack.size() == 0) {
+                    System.out.println("operator <" + s + "> (position: <" + input.indexOf(s) + 1 + ">): there's no remainder operation can undo");
+                    return;
+                }
                 undo();
             } else if (s.matches(CLEAR)) {
                 // @Description:清空 2018/5/9 0:53 Hussein
@@ -131,6 +136,11 @@ public class Calculator {
 
     private static void undo() {
         Operator operator = operatorStack.pop();
+        if (operator == null) {
+            // @Description:若操作符为空代表上次操作为存入数据 2018/5/13 15:03 Hussein
+            numStack.pop();
+            return;
+        }
         Stack<String> lastStack = operator.getLastStack();
         numStack.clear();
         numStack = (Stack<String>) lastStack.clone();
@@ -150,41 +160,11 @@ public class Calculator {
     private static String display(String num) {
         if (num.contains(".")) {
             String decimal = num.substring(num.indexOf(".") + 1, num.length());
-            if (decimal.length() > 15) {
+            if (decimal.length() > 10) {
                 num = num.substring(0, num.indexOf(".") + 11);
             }
         }
         return num;
     }
-//    /**
-//     * @param
-//     * @Description: 二分法求平方根
-//     * @author : Hussein
-//     * @E-mail：43138199@qq.com
-//     * @date: 2018/5/9
-//     * @time: 23:59
-//     * @return: a
-//     * @thros:
-//     * @note: 2018/5/9-23:59 Hussein  create
-//     */
-//    private static void sqrt() {
-//        String trashNum = numStack.pop();
-//        trash.push(trashNum);
-//        double num = Double.valueOf(trashNum);
-//        double max = Double.valueOf(num);
-//        double min = 0, middle =0, tempDeviation = 0;
-//        do {
-//            middle = (max + min) / 2;
-//            double middleSquare = middle * middle;
-//            if (middleSquare > num) {
-//                max = middle;
-//                tempDeviation = middleSquare - num;
-//            } else {
-//                min = middle;
-//                tempDeviation = num - middleSquare;
-//            }
-//        } while (tempDeviation > deviation);
-//        stack.push(String.valueOf(middle));
-//    }
 
 }

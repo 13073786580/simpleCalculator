@@ -28,21 +28,37 @@ public class SqrtOperator extends Operator {
 
     @Override
     public String operating() {
+        String result = null;
         double num = Double.valueOf(sqrtNum);
-        double max = Double.valueOf(num);
-        double min = 0, middle =0, tempDeviation = 0;
-        do {
-            middle = (max + min) / 2;
-            double middleSquare = middle * middle;
-            if (middleSquare > num) {
-                max = middle;
-                tempDeviation = middleSquare - num;
-            } else {
-                min = middle;
-                tempDeviation = num - middleSquare;
-            }
-        } while (tempDeviation > deviation);
-        return Double.toString(middle);
+        double resultDouble = Math.sqrt(num);
+        double d = new Double(resultDouble).intValue() - resultDouble;
+        if (d == 0){
+            result = Integer.toString(new Double(resultDouble).intValue());
+        } else {
+            result = Double.toString(resultDouble);
+        }
+        return result;
+//        double num = Double.valueOf(sqrtNum);
+//        double t = Math.sqrt(num);
+//        double max = Double.valueOf(num);
+//        double min = 0, middle =0, tempDeviation = 0;
+//        do {
+//            middle = (max + min) / 2;
+//            double middleSquare = middle * middle;
+//            if (middleSquare > num) {
+//                max = middle;
+//                tempDeviation = middleSquare - num;
+//            } else {
+//                min = middle;
+//                tempDeviation = num - middleSquare;
+//            }
+//        } while (tempDeviation > deviation);
+//        double d = new Double(middle).intValue() - middle;
+//        if (d == 0){
+//            result = Integer.toString(new Double(middle).intValue());
+//        } else {
+//            result = Double.toString(middle);
+//        }
     }
 
     public String getSqrtNum() {
