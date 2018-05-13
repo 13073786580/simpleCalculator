@@ -137,6 +137,17 @@ public class Calculator {
         }
     }
 
+    /**
+     * @param
+     * @Description: 回退操作
+     * @author : Hussein
+     * @E-mail：43138199@qq.com
+     * @date: 2018/5/13
+     * @time: 16:17
+     * @return: a
+     * @thros:
+     * @note: 2018/5/13-16:17 Hussein  create
+     */
     private static void undo() {
         Operator operator = operatorStack.pop();
         if (operator == null) {
